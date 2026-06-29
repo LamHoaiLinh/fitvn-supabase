@@ -1,0 +1,16 @@
+export type Gender='male'|'female'|'other';
+export type FitnessGoal='giam_can'|'giam_mo'|'giu_co'|'tang_suc_ben'|'cai_thien_suc_khoe';
+export type FitnessLevel='beginner'|'intermediate'|'advanced';
+export type WorkoutStatus='completed'|'partial'|'skipped'|'abandoned';
+export type UserStatus='active'|'locked'|'deleted'|'soft_deleted';
+export type Pressure='thap'|'trung_binh'|'cao';
+export interface UserIndexRow{userId:string;email:string;name:string;sheetPrefix:string;role:'user'|'admin';status:UserStatus;passwordHash:string;resetTokenHash?:string;resetExpiresAt?:string;createdAt:string;updatedAt:string;deletedAt?:string;note?:string;__rowNumber?:number}
+export interface ProfileInput{gender?:Gender;dateOfBirth?:string;age?:number;heightCm?:number;weightKg?:number;activityLevel?:'sedentary'|'light'|'moderate'|'active'|'very_active';goal?:FitnessGoal;sessionsPerWeek?:3|4|5|6;minutesPerSession?:15|20|30|45|60;equipment?:string[];limitations?:string[];bodyFocus?:string[];neckCm?:number;chestCm?:number;waistCm?:number;hipCm?:number;thighCm?:number;armCm?:number;calfCm?:number;restingHeartRate?:number;dailySteps?:number}
+export interface Metrics{bmi?:number;bmiLabel?:string;bmr?:number;tdee?:number;targetCalories?:number;macros?:{proteinG:number;fatG:number;carbG:number};bodyFatPercent?:number;waistToHeightRatio?:number;waistToHipRatio?:number;missing:string[];warnings:string[]}
+export interface AssessmentInput{[key:string]:number|undefined}
+export interface Exercise{ id:string; nameVi:string; nameEn:string; category:string[]; primaryMuscles:string[]; secondaryMuscles:string[]; level:FitnessLevel; suitableFor:'nam'|'nu'|'unisex'; equipment:string[]; hasJump:boolean; kneePressure:Pressure; lowerBackPressure:Pressure; shoulderPressure:Pressure; wristPressure:Pressure; safetyNotes:string; stepsVi:string[]; commonMistakes:string[]; formTips:string[]; easierVariation:string; harderVariation:string; imagePlaceholder:string; videoPlaceholder:string}
+export interface WorkoutExercisePlan{exerciseId:string;exerciseName:string;block:'warmup'|'main'|'core'|'finisher'|'cooldown';sets:number;reps?:number;seconds?:number;restSeconds:number;note:string}
+export interface WorkoutDayPlan{dayIndex:number;title:string;focus:string;estimatedMinutes:number;exercises:WorkoutExercisePlan[]}
+export interface WorkoutPlan{planId:string;userId:string;level:FitnessLevel;goal:FitnessGoal;weeks:number;createdAt:string;days:WorkoutDayPlan[]}
+export interface WorkoutSessionEventInput{eventId?:string;sessionId:string;dayIndex:number;eventType:'session_started'|'exercise_started'|'set_completed'|'exercise_skipped'|'exercise_next_clicked'|'workout_paused'|'workout_resumed'|'workout_abandoned'|'workout_completed';exerciseId?:string;exerciseName?:string;plannedSet?:number;completedSet?:number;plannedRepOrTime?:string;actualRepOrTime?:string;skipReason?:string;detail?:string;createdAt?:string}
+export interface WorkoutLogInput{logId?:string;sessionId:string;dayIndex:number;status:WorkoutStatus;exerciseId?:string;exerciseName?:string;plannedSet?:number;completedSet?:number;plannedRepOrTime?:string;actualRepOrTime?:string;skipReason?:string;startedAt?:string;endedAt?:string;durationSec?:number;createdAt?:string}

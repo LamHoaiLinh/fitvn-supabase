@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-label="Nhón bắp chân">
+  <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#dff7ff"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+  <rect width="320" height="420" rx="32" fill="url(#g)"/>
+  <circle cx="260" cy="64" r="38" fill="#0ea5e9" opacity="0.16"/><circle cx="58" cy="350" r="48" fill="#16a34a" opacity="0.15"/>
+  <rect x="42" y="318" width="236" height="18" rx="9" fill="#cbd5e1" opacity="0.8"/>
+  <g transform="translate(0,28)"><circle cx="95" cy="130" r="20" fill="#0f172a"/><path d="M118 142 Q170 185 238 175" stroke="#1f2937" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M150 170 L105 230" stroke="#0f172a" stroke-width="14" stroke-linecap="round"/><path d="M190 178 L248 238" stroke="#0f172a" stroke-width="14" stroke-linecap="round"/><path d="M125 145 L82 190" stroke="#0f172a" stroke-width="13" stroke-linecap="round"/><path d="M210 174 L265 140" stroke="#0f172a" stroke-width="13" stroke-linecap="round"/></g>
+  <rect x="24" y="24" width="88" height="28" rx="14" fill="#0ea5e9" opacity="0.95"/><text x="68" y="43" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="white">FITVN</text>
+  <text x="160" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#0f172a">Nhón bắp chân</text>
+  <text x="160" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#475569">toàn thân</text>
+</svg>
