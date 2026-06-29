@@ -1,4 +1,80 @@
-import { exerciseSeed } from '@/data/exercises.seed';import type { FitnessLevel,ProfileInput } from '@/types/fitness';
-export const exerciseLibrary=exerciseSeed;const rank:any={beginner:1,intermediate:2,advanced:3};
-export function filterExercisesForUser(p:ProfileInput,level:FitnessLevel,skippedIds:string[]=[]){const eq=new Set(p.equipment||[]),lim=new Set(p.limitations||[]);const bmi=p.weightKg&&p.heightCm?p.weightKg/((p.heightCm/100)**2):0;const avoidJump=bmi>=28||lim.has('gối')||lim.has('thừa_cân_nhiều')||lim.has('huyết_áp')||lim.has('tim_mạch');return exerciseLibrary.filter(e=>!(rank[e.level]>rank[level]+1)&&!(avoidJump&&e.hasJump)&&!(lim.has('gối')&&e.kneePressure==='cao')&&!(lim.has('lưng')&&e.lowerBackPressure==='cao')&&!(e.equipment.length&&!e.equipment.some(n=>[...eq].some(h=>n.toLowerCase().includes(h.toLowerCase())||h.toLowerCase().includes(n.toLowerCase()))))&&!(skippedIds.includes(e.id)&&e.level!=='beginner'))}
-export function pickByCategory(pool:any[],cats:string[],count:number){const out:any[]=[];for(const c of cats)for(const e of pool){if(out.length>=count)break;if(e.category.includes(c)&&!out.find(x=>x.id===e.id))out.push(e)}for(const e of pool){if(out.length>=count)break;if(!out.find(x=>x.id===e.id))out.push(e)}return out.slice(0,count)}
+import { exerciseSeed } from '@/data/exercises.seed';
+import type { Exercise, FitnessLevel, ProfileInput, Pressure } from '@/types/fitness';
+
+// Ép seed về kiểu Exercise[] để TypeScript không suy luận quá hẹp từ dữ liệu seed hiện tại.
+// Nếu seed hiện chưa có bài nào pressure='cao', TS có thể suy luận chỉ còn 'thap'|'trung_binh'
+// và báo lỗi khi ta kiểm tra === 'cao'. Runtime thì logic này vẫn cần cho seed mở rộng sau này.
+export const exerciseLibrary: Exercise[] = exerciseSeed as Exercise[];
+
+const rank: Record<FitnessLevel, number> = {
+  beginner: 1,
+  intermediate: 2,
+  advanced: 3,
+};
+
+function hasMatchingEquipment(required: string[], available: string[]) {
+  if (!required.length) return true;
+  const normalizedAvailable = available.map((item) => item.toLowerCase());
+  return required.some((need) => {
+    const normalizedNeed = need.toLowerCase();
+    return normalizedAvailable.some(
+      (have) => normalizedNeed.includes(have) || have.includes(normalizedNeed),
+    );
+  });
+}
+
+function isHighPressure(value: Pressure | string | undefined) {
+  return value === 'cao';
+}
+
+export function filterExercisesForUser(
+  profile: ProfileInput,
+  level: FitnessLevel,
+  skippedIds: string[] = [],
+) {
+  const equipment = profile.equipment || [];
+  const limitations = new Set(profile.limitations || []);
+  const bmi =
+    profile.weightKg && profile.heightCm
+      ? profile.weightKg / (profile.heightCm / 100) ** 2
+      : 0;
+
+  const avoidJump =
+    bmi >= 28 ||
+    limitations.has('gối') ||
+    limitations.has('thừa_cân_nhiều') ||
+    limitations.has('huyết_áp') ||
+    limitations.has('tim_mạch');
+
+  return exerciseLibrary.filter((exercise) => {
+    if (rank[exercise.level] > rank[level] + 1) return false;
+    if (avoidJump && exercise.hasJump) return false;
+    if (limitations.has('gối') && isHighPressure(exercise.kneePressure)) return false;
+    if (limitations.has('lưng') && isHighPressure(exercise.lowerBackPressure)) return false;
+    if (limitations.has('vai') && isHighPressure(exercise.shoulderPressure)) return false;
+    if (limitations.has('cổ_tay') && isHighPressure(exercise.wristPressure)) return false;
+    if (!hasMatchingEquipment(exercise.equipment, equipment)) return false;
+    if (skippedIds.includes(exercise.id) && exercise.level !== 'beginner') return false;
+    return true;
+  });
+}
+
+export function pickByCategory(pool: Exercise[], categories: string[], count: number) {
+  const out: Exercise[] = [];
+
+  for (const category of categories) {
+    for (const exercise of pool) {
+      if (out.length >= count) break;
+      if (exercise.category.includes(category) && !out.find((item) => item.id === exercise.id)) {
+        out.push(exercise);
+      }
+    }
+  }
+
+  for (const exercise of pool) {
+    if (out.length >= count) break;
+    if (!out.find((item) => item.id === exercise.id)) out.push(exercise);
+  }
+
+  return out.slice(0, count);
+}
