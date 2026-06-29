@@ -1,0 +1,1 @@
+export const HEALTH_DISCLAIMER='FitVN chỉ hỗ trợ tham khảo, không thay thế bác sĩ hoặc huấn luyện viên. Nếu bạn có bệnh nền, đau ngực, chóng mặt, chấn thương, huyết áp, tim mạch, đang mang thai hoặc sau sinh, bạn nên hỏi chuyên gia trước khi tập.';

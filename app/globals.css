@@ -1,0 +1,7 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+html,body{min-height:100%;background:#f8fafc;color:#0f172a}
+.fit-card{@apply rounded-3xl bg-white shadow-soft border border-slate-100}
+.fit-input{@apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-fitBlue focus:ring-4 focus:ring-sky-100}
+.fit-label{@apply text-sm font-bold text-slate-700}
+.fit-btn-primary{@apply rounded-2xl bg-gradient-to-r from-fitBlue to-fitGreen px-5 py-3 font-black text-white shadow-lg}
+.fit-btn-secondary{@apply rounded-2xl border border-slate-200 bg-white px-5 py-3 font-black text-slate-800}

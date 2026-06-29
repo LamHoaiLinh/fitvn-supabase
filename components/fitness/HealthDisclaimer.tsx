@@ -1,0 +1,1 @@
+import { HEALTH_DISCLAIMER } from '@/lib/healthRules';export function HealthDisclaimer(){return <div className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-sm font-bold text-amber-900">{HEALTH_DISCLAIMER}</div>}

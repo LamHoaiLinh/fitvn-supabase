@@ -1,0 +1,6 @@
+import { cookies } from 'next/headers';import { SignJWT,jwtVerify } from 'jose';import { cookieSecure,env } from '@/lib/env';import { getUserById } from '@/lib/dataRepository';
+const secret=new TextEncoder().encode(env.JWT_SECRET);
+export async function setUserSession(p:{userId:string;email:string;role:'user'}){const token=await new SignJWT(p).setProtectedHeader({alg:'HS256'}).setIssuedAt().setExpirationTime('7d').sign(secret);(await cookies()).set('fitvn_session',token,{httpOnly:true,sameSite:'lax',secure:cookieSecure,path:'/',maxAge:604800});}
+export async function clearUserSession(){(await cookies()).set('fitvn_session','',{httpOnly:true,path:'/',maxAge:0});}
+export async function getCurrentSession(){const token=(await cookies()).get('fitvn_session')?.value;if(!token)return null;try{const {payload}=await jwtVerify(token,secret);return payload.role==='user'?{userId:String(payload.userId),email:String(payload.email),role:'user' as const}:null}catch{return null}}
+export async function requireUserSession(){const s=await getCurrentSession();if(!s)throw new Error('Bạn cần đăng nhập để thực hiện thao tác này.');const u=await getUserById(s.userId);if(!u||u.status==='deleted'||u.status==='soft_deleted')throw new Error('Tài khoản không tồn tại hoặc đã bị xoá.');if(u.status==='locked')throw new Error('Tài khoản của bạn đang bị khoá.');return s;}

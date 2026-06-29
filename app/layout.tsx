@@ -1,0 +1,3 @@
+import type { Metadata,Viewport } from 'next';import './globals.css';import { CenterModalProvider } from '@/components/notifications/CenterModal';import { PwaSyncBoot } from '@/components/fitness/PwaSyncBoot';
+export const metadata:Metadata={title:'FitVN – Tư Vấn & Lịch Tập Giảm Cân Cá Nhân',description:'Fitness web app tiếng Việt cho gia đình/người thân.',manifest:'/manifest.webmanifest'};export const viewport:Viewport={width:'device-width',initialScale:1,maximumScale:1};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="vi"><body><CenterModalProvider><PwaSyncBoot/>{children}</CenterModalProvider></body></html>}
